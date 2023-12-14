@@ -1,0 +1,5 @@
+Flask==2.0.1
+Flask-PyMongo==2.3.0
+Flask-Bcrypt==0.7.1
+Flask-CORS==3.0.10
+Werkzeug==2.0.1
