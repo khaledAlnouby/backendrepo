@@ -33,7 +33,7 @@ def signup():
 
 
     users_collection.insert_one(new_user)
-
+    print("User inserted successfully")
     return jsonify({"msg": "User registered successfully"}), 201
 
 @app.route('/api/login', methods=['POST'])
@@ -216,32 +216,6 @@ def get_all_patient_emails():
 
     return jsonify({"patientEmails": patient_emails}), 200
 
-def update_appointment(patient_email, current_doctor_email, current_slot, new_doctor_email, new_slot):   
-    query = {
-        'email': patient_email,
-        'userType': 'patient',
-        'appointments': {
-            '$elemMatch': {
-                'doctor_email': current_doctor_email,
-                'day': current_slot['day'],
-                'start_time': current_slot['start_time'],
-                'end_time': current_slot['end_time']
-            }
-        }
-    }
-    current_appointment = appointment_collection.find_one(query)
-    if not current_appointment:
-        return False
-    update_operation = {
-        '$set': {
-            'appointments.$.doctor_email': new_doctor_email,
-            'appointments.$.day': new_slot['day'],
-            'appointments.$.start_time': new_slot['start_time'],
-            'appointments.$.end_time': new_slot['end_time']
-        }
-    }
-    result = appointment_collection.update_one(query, update_operation)
-    return result.modified_count > 0
 @app.route('/')
 def index():
     return "Hello, World!"
